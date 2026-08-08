@@ -44,8 +44,7 @@ export const webExercises: Exercise[] = [
     hintCost: 5,
     starterCode: { html: '<h2>Ma liste</h2>\n', css: '', js: '' },
     validation: [
-      { type: 'dom-exists', selector: 'ul li', checks: [] },
-      { type: 'html-structure', selector: undefined, checks: [{ matches: '<li>[^<]+</li>.*<li>[^<]+</li>.*<li>' }] },
+      { type: 'dom-exists', selector: 'ul li', checks: [], minCount: 3 },
     ],
     mode: 'preview',
     order: 3,

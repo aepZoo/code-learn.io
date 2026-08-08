@@ -11,6 +11,7 @@ export interface ValidationRule {
   type: ValidationType
   selector?: string
   checks: ValidationCheck[]
+  minCount?: number
 }
 
 export interface Exercise {

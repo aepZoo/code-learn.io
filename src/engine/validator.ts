@@ -27,7 +27,7 @@ export function validateExercise(
         if (check.contains && !html.includes(check.contains)) {
           return { success: false, message: `Le HTML doit contenir : ${check.contains}` }
         }
-        if (check.matches && !new RegExp(check.matches, 'i').test(html)) {
+        if (check.matches && !new RegExp(check.matches, 'is').test(html)) {
           return { success: false, message: 'La structure HTML ne correspond pas.' }
         }
       }
@@ -39,6 +39,12 @@ export function validateExercise(
         return { success: false, message: 'Règle de validation invalide.' }
       }
       const elements = doc.querySelectorAll(rule.selector)
+      if (rule.minCount !== undefined && elements.length < rule.minCount) {
+        return {
+          success: false,
+          message: `Il faut au moins ${rule.minCount} élément(s) "${rule.selector}" (trouvé : ${elements.length})`,
+        }
+      }
       if (elements.length === 0) {
         return { success: false, message: `Élément manquant : ${rule.selector}` }
       }
