@@ -5,9 +5,9 @@ export const webExercises: Exercise[] = [
     id: 'html-1',
     chapterId: 'html-basics',
     title: 'Titre principal',
-    description: 'Affichez « Bonjour le monde » comme titre principal de votre page.',
+    description: 'Affichez « Bonjour le monde » comme titre principal de votre page avec une balise `<h1>`.',
     explanation:
-      'La balise `<h1>` définit le titre le plus important d\'une page. Les titres vont de h1 (principal) à h6 (le plus petit). Tout texte entre une balise ouvrante `<h1>` et fermante `</h1>` s\'affiche comme un gros titre.',
+      'Il fallait écrire : `<h1>Bonjour le monde</h1>`. La balise `<h1>` est le titre le plus important de la page.',
     difficulty: 1,
     xpReward: 25,
     hints: [
@@ -26,9 +26,9 @@ export const webExercises: Exercise[] = [
     id: 'html-2',
     chapterId: 'html-basics',
     title: 'Paragraphe',
-    description: 'Ajoutez un paragraphe de texte sous votre titre (minimum 10 caractères).',
+    description: 'Ajoutez un paragraphe `<p>` sous votre titre (minimum 10 caractères).',
     explanation:
-      'La balise `<p>` crée un paragraphe : un bloc de texte séparé des autres. Chaque `<p>` est affiché avec un espace avant et après, ce qui structure la lecture.',
+      'Il fallait ajouter un `<p>` avec au moins 10 caractères de texte. La balise `<p>` crée un bloc de paragraphe séparé des autres.',
     difficulty: 1,
     xpReward: 25,
     hints: [
@@ -47,9 +47,9 @@ export const webExercises: Exercise[] = [
     id: 'html-3',
     chapterId: 'html-basics',
     title: 'Liste à puces',
-    description: 'Créez une liste non ordonnée contenant au moins 3 éléments.',
+    description: 'Créez une liste `<ul>` non ordonnée contenant au moins 3 éléments `<li>`.',
     explanation:
-      '`<ul>` (unordered list) est le conteneur d\'une liste à puces. Chaque élément est un `<li>` (list item). Le navigateur ajoute automatiquement une puce devant chaque li.',
+      'Il fallait un `<ul>` avec au moins 3 `<li>` à l\'intérieur. `<ul>` est le conteneur, `<li>` chaque élément de la liste.',
     difficulty: 1,
     xpReward: 30,
     hints: [
@@ -69,9 +69,9 @@ export const webExercises: Exercise[] = [
     id: 'html-4',
     chapterId: 'html-basics',
     title: 'Lien hypertexte',
-    description: 'Dans un élément de votre liste, ajoutez un lien vers github.com affichant « GitHub ».',
+    description: 'Dans un `<li>` de votre liste, ajoutez un lien `<a href="...">` vers github.com affichant « GitHub ».',
     explanation:
-      '`<a href="url">` crée un hyperlien cliquable. L\'attribut `href` indique la destination. Chaque balise ouverte doit être fermée (`</a>`, `</li>`…) au bon endroit — le navigateur ne devine pas toujours correctement.',
+      'Il fallait un lien dans un `<li>` : `<a href="https://github.com">GitHub</a>`. L\'attribut `href` indique la destination, le texte entre les balises ce qui s\'affiche.',
     difficulty: 2,
     xpReward: 35,
     hints: [
@@ -95,14 +95,14 @@ export const webExercises: Exercise[] = [
     id: 'html-5',
     chapterId: 'html-forms',
     title: 'Bouton',
-    description: 'Ajoutez un bouton rouge affichant « Clique-moi ».',
+    description: 'Ajoutez un `<button>` affichant « Clique-moi ».',
     explanation:
-      '`<button>` est un élément interactif : l\'utilisateur peut cliquer dessus. On peut le colorer via CSS (`background-color`) ou l\'attribut `style` directement dans le HTML.',
+      'Il fallait : `<button>Clique-moi</button>`. La balise `<button>` crée un élément cliquable.',
     difficulty: 2,
     xpReward: 35,
     hints: [
       'Il existe une balise spécifique pour les boutons.',
-      'La couleur peut se mettre en CSS ou en style inline sur l\'élément.',
+      'Le texte du bouton se place entre la balise ouvrante et fermante.',
     ],
     hintCost: 5,
     starterCode: { html: '', css: '', js: '' },
@@ -116,9 +116,9 @@ export const webExercises: Exercise[] = [
     id: 'html-6',
     chapterId: 'html-forms',
     title: 'Champ de saisie',
-    description: 'Créez un champ de saisie texte accompagné du label « Email ».',
+    description: 'Créez un `<label>` affichant « Email » et un `<input type="text">` pour la saisie.',
     explanation:
-      '`<label>` décrit un champ de formulaire. `<input type="text">` crée une zone où l\'utilisateur peut taper du texte. Le type précise le genre de donnée attendue.',
+      'Il fallait un `<label>Email</label>` et un `<input type="text">`. Le label décrit le champ, l\'input permet de saisir du texte.',
     difficulty: 2,
     xpReward: 40,
     hints: [
@@ -138,9 +138,9 @@ export const webExercises: Exercise[] = [
     id: 'css-1',
     chapterId: 'css-intro',
     title: 'Couleurs CSS',
-    description: 'Fond violet (#6C5CE7) pour toute la page, texte du titre en blanc.',
+    description: 'Fond violet (#6C5CE7) sur `body`, texte blanc sur `h1`.',
     explanation:
-      'Le sélecteur `body` cible toute la page. `background-color` colore le fond, `color` la couleur du texte. Le CSS vit dans l\'onglet CSS et s\'applique au HTML de l\'onglet HTML.',
+      'Il fallait dans le CSS : `body { background-color: #6C5CE7; }` et `h1 { color: white; }`. `background-color` colore le fond, `color` la couleur du texte.',
     difficulty: 1,
     xpReward: 35,
     hints: [
@@ -166,9 +166,9 @@ export const webExercises: Exercise[] = [
     id: 'css-2',
     chapterId: 'css-intro',
     title: 'Taille et centrage des textes',
-    description: 'Le titre doit faire 2rem et être centré horizontalement.',
+    description: 'Le `h1` doit faire `2rem` et être centré avec `text-align: center`.',
     explanation:
-      '`font-size: 2rem` définit la taille du texte en rem (relatif à la taille de base du document). `text-align: center` centre le contenu horizontalement dans son conteneur.',
+      'Il fallait sur `h1` : `font-size: 2rem;` et `text-align: center;`. `2rem` définit la taille du texte, `text-align: center` le centre horizontalement.',
     difficulty: 2,
     xpReward: 35,
     hints: [
@@ -194,9 +194,9 @@ export const webExercises: Exercise[] = [
     id: 'css-3',
     chapterId: 'css-intro',
     title: 'Carte stylée',
-    description: 'Créez une div avec la classe (.card) et lui appliquer : fond blanc, coins arrondis (12px), padding 20px et une ombre portée.',
+    description: 'Créez une `<div class="card">` avec : fond blanc, `border-radius: 12px`, `padding: 20px` et `box-shadow: 0px 5px 5px black`.',
     explanation:
-      'L\'attribut `class="card"` permet de cibler un élément en CSS avec `.card`. border-radius arrondit les coins, padding espace le contenu intérieur, box-shadow ajoute une ombre. Pour l\'ombre portée, utilisez : `box-shadow: 0px 5px 5px black;`',
+      'Il fallait une `<div class="card">` et en CSS : `background-color: white;`, `border-radius: 12px;`, `padding: 20px;`, `box-shadow: 0px 5px 5px black;`. La classe `card` permet de cibler l\'élément avec `.card` en CSS.',
     difficulty: 2,
     xpReward: 40,
     hints: [
@@ -207,7 +207,7 @@ export const webExercises: Exercise[] = [
     starterCode: { html: '', css: '', js: '' },
     validation: [
       { type: 'dom-exists', selector: '.card', checks: [] },
-      { type: 'css-source', checks: [{ matches: '\\.card\\s*\\{[^}]*box-shadow\\s*:' }] },
+      { type: 'css-source', checks: [{ matches: '\\.card\\s*\\{[^}]*box-shadow\\s*:\\s*0px\\s+5px\\s+5px\\s+black' }] },
       { type: 'css-property', selector: '.card', checks: [
         { property: 'background-color', contains: '255,255,255' },
         { property: 'border-radius', contains: '12px' },
@@ -222,9 +222,9 @@ export const webExercises: Exercise[] = [
     id: 'css-4',
     chapterId: 'css-layout',
     title: 'Carré rose',
-    description: 'Ajoutez une `<div class="square"></div>` et faites-en un carré rose de 100×100 pixels.',
+    description: 'Ajoutez une `<div class="square"></div>` et stylisez-la : `100px` × `100px`, fond `#ffc0cb`.',
     explanation:
-      'Dans le HTML : `<div class="square"></div>`. Dans le CSS, `.square` permet de styler cette div : `width: 100px` et `height: 100px` pour la taille, `background-color: #ffc0cb` pour le rose.',
+      'Il fallait `<div class="square"></div>` et en CSS : `.square { width: 100px; height: 100px; background-color: #ffc0cb; }`.',
     difficulty: 2,
     xpReward: 35,
     hints: [
@@ -249,14 +249,14 @@ export const webExercises: Exercise[] = [
     id: 'css-5',
     chapterId: 'css-layout',
     title: 'Navigation horizontale',
-    description: 'Ajoutez une barre de navigation avec au moins 3 liens, alignés horizontalement.',
+    description: 'Ajoutez une balise `<nav>` avec au moins 3 liens `<a>`, alignés horizontalement avec `display: flex` en CSS.',
     explanation:
-      '`<nav>` est la balise sémantique pour une zone de navigation. Combinée à `display: flex` et `gap`, les liens `<a>` s\'alignent côte à côte avec un espacement régulier.',
+      'Il fallait un `<nav>` contenant au moins 3 `<a>`, et en CSS : `nav { display: flex; }`. Flexbox aligne les liens côte à côte.',
     difficulty: 2,
     xpReward: 40,
     hints: [
       'nav est la balise dédiée à la navigation.',
-      'flex + gap aligne les liens horizontalement avec de l\'espace entre eux.',
+      'display: flex sur nav aligne les liens horizontalement.',
     ],
     hintCost: 5,
     starterCode: { html: '', css: '', js: '' },
@@ -264,10 +264,8 @@ export const webExercises: Exercise[] = [
       { type: 'html-well-formed', checks: [] },
       { type: 'dom-exists', selector: 'nav', checks: [] },
       { type: 'dom-exists', selector: 'nav a', checks: [], minCount: 3 },
-      {
-        type: 'css-source',
-        checks: [{ matches: 'nav\\s*\\{[^}]*display\\s*:\\s*flex' }],
-      },
+      { type: 'css-source', checks: [{ matches: 'nav\\s*\\{[^}]*display\\s*:\\s*flex' }] },
+      { type: 'css-property', selector: 'nav', checks: [{ property: 'display', equals: 'flex' }] },
     ],
     mode: 'preview',
     order: 11,
@@ -276,18 +274,24 @@ export const webExercises: Exercise[] = [
     id: 'css-6',
     chapterId: 'css-layout',
     title: 'Grille de cartes',
-    description: 'Affichez 2 cartes côte à côte en grille (2 colonnes égales, espacement 16px).',
+    description: 'Créez un `<div class="grid">` avec 2 `<div class="card">` dedans. CSS sur `.grid` : `display: grid`, `grid-template-columns: 1fr 1fr`, `gap: 16px`.',
     explanation:
-      '`display: grid` crée une grille CSS. `grid-template-columns: 1fr 1fr` divise l\'espace en 2 colonnes égales (fr = fraction). `gap` espace les cellules.',
+      'Il fallait un `<div class="grid">` avec 2 `<div class="card">`, et en CSS : `.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }`.',
     difficulty: 3,
     xpReward: 45,
     hints: [
-      'Un conteneur .grid entoure les cartes.',
-      'grid-template-columns définit le nombre et la taille des colonnes.',
+      'Un conteneur `<div class="grid">` entoure les 2 cartes.',
+      'grid-template-columns: 1fr 1fr crée 2 colonnes égales.',
+      'gap: 16px espace les cartes.',
     ],
     hintCost: 5,
     starterCode: { html: '', css: '', js: '' },
     validation: [
+      { type: 'dom-exists', selector: '.grid', checks: [] },
+      { type: 'dom-exists', selector: '.grid .card', checks: [], minCount: 2 },
+      { type: 'css-source', checks: [{ matches: '\\.grid\\s*\\{[^}]*display\\s*:\\s*grid' }] },
+      { type: 'css-source', checks: [{ matches: '\\.grid\\s*\\{[^}]*grid-template-columns\\s*:\\s*1fr\\s+1fr' }] },
+      { type: 'css-source', checks: [{ matches: '\\.grid\\s*\\{[^}]*gap\\s*:\\s*16px' }] },
       { type: 'css-property', selector: '.grid', checks: [{ property: 'display', equals: 'grid' }] },
     ],
     mode: 'preview',
@@ -297,9 +301,9 @@ export const webExercises: Exercise[] = [
     id: 'js-1',
     chapterId: 'js-basics',
     title: 'Sortie console',
-    description: 'Faites afficher « Hello JS! » dans la console.',
+    description: 'Dans l\'onglet JS, affichez « Hello JS! » dans la console avec `console.log`.',
     explanation:
-      '`console.log()` envoie un message dans la console du navigateur — indispensable pour déboguer. Le code JavaScript s\'écrit dans l\'onglet JS et s\'exécute au chargement de la page.',
+      'Il fallait écrire dans l\'onglet JS : `console.log(\'Hello JS!\');` — cela affiche le message dans la console du navigateur.',
     difficulty: 1,
     xpReward: 35,
     hints: [
@@ -318,9 +322,9 @@ export const webExercises: Exercise[] = [
     id: 'js-2',
     chapterId: 'js-basics',
     title: 'Modifier le contenu',
-    description: 'Créez un paragraphe id="msg", puis faites-le afficher « JavaScript actif! » via JavaScript.',
+    description: 'Créez un `<p id="msg"></p>` en HTML, puis affichez « JavaScript actif! » dedans via JavaScript.',
     explanation:
-      'Le DOM est la représentation JavaScript de la page. `document.getElementById("msg")` sélectionne un élément par son id. `.textContent` permet de lire ou modifier son texte.',
+      'Il fallait `<p id="msg"></p>` en HTML, puis en JS : `document.getElementById(\'msg\').textContent = \'JavaScript actif!\';`',
     difficulty: 2,
     xpReward: 45,
     hints: [
@@ -339,14 +343,14 @@ export const webExercises: Exercise[] = [
     id: 'app-1',
     chapterId: 'first-app',
     title: 'Première application',
-    description: 'Composez une mini-app (titre « Mon App » + bouton stylé + fond dégradé). Elle s\'ouvrira dans le simulateur de bureau.',
+    description: 'Créez une page avec un titre `<h1>Mon App</h1>` et un `<button>`. Elle s\'ouvrira dans le simulateur de bureau.',
     explanation:
-      'En combinant HTML (structure), CSS (apparence) et éventuellement JS (interactivité), on crée une application web complète. Le simulateur de bureau l\'affiche comme une vraie app dans une fenêtre.',
+      'Il fallait un `<h1>Mon App</h1>` et un `<button>`. En combinant HTML et CSS, on compose une mini-application affichée dans le simulateur de bureau.',
     difficulty: 3,
     xpReward: 100,
     hints: [
-      'Structure : un conteneur, un titre h1, un button.',
-      'Un dégradé CSS utilise linear-gradient sur le fond.',
+      'Un titre h1 et un button suffisent pour cette étape.',
+      'Vous pouvez ajouter du CSS pour styliser votre app.',
     ],
     hintCost: 5,
     starterCode: { html: '', css: '', js: '' },
