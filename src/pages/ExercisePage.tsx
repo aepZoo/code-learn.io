@@ -15,6 +15,12 @@ import { useWorkspaceStore } from '../stores/workspaceStore'
 
 type Tab = 'html' | 'css' | 'js'
 
+function defaultEditorTab(exercise: { id: string; chapterId: string }): Tab {
+  if (exercise.id.startsWith('css-') || exercise.chapterId.startsWith('css')) return 'css'
+  if (exercise.id.startsWith('js-') || exercise.chapterId.startsWith('js')) return 'js'
+  return 'html'
+}
+
 export function ExercisePage() {
   const { exerciseId } = useParams<{ exerciseId: string }>()
   const navigate = useNavigate()
@@ -44,13 +50,7 @@ export function ExercisePage() {
 
   useEffect(() => {
     if (!exercise) return
-    setActiveTab(
-      exercise.starterCode.css !== undefined && exercise.starterCode.html === undefined
-        ? 'css'
-        : exercise.starterCode.js !== undefined && !exercise.starterCode.html && !exercise.starterCode.css
-          ? 'js'
-          : 'html',
-    )
+    setActiveTab(defaultEditorTab(exercise))
     startTime.current = Date.now()
     hintsUsedRef.current = 0
     failedAttemptsRef.current = 0
