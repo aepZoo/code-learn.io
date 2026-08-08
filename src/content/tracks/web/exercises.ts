@@ -44,6 +44,7 @@ export const webExercises: Exercise[] = [
     hintCost: 5,
     starterCode: { html: '<h2>Ma liste</h2>\n', css: '', js: '' },
     validation: [
+      { type: 'html-well-formed', checks: [] },
       { type: 'dom-exists', selector: 'ul li', checks: [], minCount: 3 },
     ],
     mode: 'preview',
@@ -53,14 +54,20 @@ export const webExercises: Exercise[] = [
     id: 'html-4',
     chapterId: 'html-basics',
     title: 'Lien hypertexte',
-    description: 'Ajoutez un lien `<a href="https://github.com">` avec le texte "GitHub".',
+    description:
+      'Dans votre liste `<ul>`, placez un lien `<a href="https://github.com">GitHub</a>` **à l\'intérieur** d\'un des `<li>`. Pensez à bien fermer toutes vos balises.',
     difficulty: 2,
     xpReward: 35,
-    hints: ['<a href="url">texte</a>'],
+    hints: [
+      '<li><a href="https://github.com">GitHub</a></li>',
+      'Chaque <li> ouvert doit être fermé par </li>, idem pour <a> et </a>.',
+    ],
     hintCost: 5,
     starterCode: { html: '<p>Visitez </p>\n', css: '', js: '' },
     validation: [
-      { type: 'dom-exists', selector: 'a', checks: [
+      { type: 'html-well-formed', checks: [] },
+      { type: 'dom-exists', selector: 'ul', checks: [] },
+      { type: 'dom-exists', selector: 'ul li a', checks: [
         { property: 'textContent', contains: 'GitHub' },
         { property: 'href', contains: 'github.com' },
       ]},

@@ -60,6 +60,50 @@ function checkCssValue(actual: string, check: ValidationCheck): boolean {
   return true
 }
 
+const VOID_TAGS = new Set([
+  'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'source', 'track', 'wbr',
+])
+
+function stripHtmlComments(html: string): string {
+  return html.replace(/<!--[\s\S]*?-->/g, '')
+}
+
+function validateHtmlWellFormed(html: string): { success: boolean; message: string } {
+  const cleaned = stripHtmlComments(html)
+  const tagRegex = /<\/?([a-zA-Z][a-zA-Z0-9]*)\b[^>]*?\/?>/g
+  const stack: string[] = []
+  let match: RegExpExecArray | null
+
+  while ((match = tagRegex.exec(cleaned)) !== null) {
+    const full = match[0]
+    const tagName = match[1].toLowerCase()
+
+    if (full.startsWith('<!') || VOID_TAGS.has(tagName)) continue
+    if (full.endsWith('/>')) continue
+
+    if (full.startsWith('</')) {
+      if (stack.length === 0) {
+        return { success: false, message: `Balise </${tagName}> en trop — aucune balise ouverte correspondante.` }
+      }
+      if (stack[stack.length - 1] !== tagName) {
+        return {
+          success: false,
+          message: `Balise </${tagName}> mal placée — fermez d'abord <${stack[stack.length - 1]}>.`,
+        }
+      }
+      stack.pop()
+    } else {
+      stack.push(tagName)
+    }
+  }
+
+  if (stack.length > 0) {
+    return { success: false, message: `Balise <${stack[stack.length - 1]}> non fermée.` }
+  }
+
+  return { success: true, message: '' }
+}
+
 function checkValue(actual: string, check: ValidationCheck): boolean {
   if (check.equals !== undefined && actual !== check.equals) return false
   if (check.contains !== undefined && !actual.includes(check.contains)) return false
@@ -102,6 +146,12 @@ export function validateExercise(
           return { success: false, message: 'Le CSS ne contient pas la règle attendue.' }
         }
       }
+      continue
+    }
+
+    if (rule.type === 'html-well-formed') {
+      const result = validateHtmlWellFormed(sources.html ?? '')
+      if (!result.success) return result
       continue
     }
 

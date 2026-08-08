@@ -1,4 +1,4 @@
-export type ValidationType = 'dom-exists' | 'css-property' | 'css-source' | 'html-structure' | 'js-output'
+export type ValidationType = 'dom-exists' | 'css-property' | 'css-source' | 'html-structure' | 'html-well-formed' | 'js-output'
 
 export interface ValidationCheck {
   property?: string
