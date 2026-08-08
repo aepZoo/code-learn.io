@@ -92,7 +92,10 @@ export function ExercisePage() {
     )
   }
 
-  const estimatedXP = calculateExerciseXP(exercise.xpReward, failedAttempts, hintsUsed)
+  const alreadyCompleted = isExerciseCompleted(exercise.id)
+  const estimatedXP = alreadyCompleted
+    ? 0
+    : calculateExerciseXP(exercise.xpReward, failedAttempts, hintsUsed)
   const nextExercise = webExercises.find((e) => e.order === exercise.order + 1)
   const showExplanation =
     isExerciseCompleted(exercise.id) || validationMsg?.type === 'success'
@@ -145,14 +148,16 @@ export function ExercisePage() {
       hintsUsedRef.current,
     )
     const stars = starsForCompletion(timeMs, hintsUsedRef.current, failedAttemptsRef.current)
-    const { leveledUp, newLevel, newAchievements } = completeExercise(
+    const { leveledUp, newLevel, newAchievements, xpEarned } = completeExercise(
       exercise.id,
       earnedXP,
       stars,
       { noHints: hintsUsedRef.current === 0, timeMs },
     )
 
-    addToast('xp', `+${earnedXP} XP`)
+    if (xpEarned > 0) {
+      addToast('xp', `+${xpEarned} XP`)
+    }
 
     for (const achId of newAchievements) {
       const ach = achievements.find((a) => a.id === achId)
@@ -192,9 +197,9 @@ export function ExercisePage() {
           <Link to="/track/web" className="exercise-header__back">← Parcours Web</Link>
           <h1 className="exercise-header__title">#{exercise.order} {exercise.title}</h1>
         </div>
-        <span className="track-card__badge" title="XP estimé selon essais et indices">
-          +{estimatedXP} XP
-          {(failedAttempts > 0 || hintsUsed > 0) && (
+        <span className="track-card__badge" title={alreadyCompleted ? 'Exercice déjà complété — rejouer sans XP' : 'XP estimé selon essais et indices'}>
+          {alreadyCompleted ? '✓ Complété' : `+${estimatedXP} XP`}
+          {!alreadyCompleted && (failedAttempts > 0 || hintsUsed > 0) && (
             <span className="exercise-xp-penalty"> / {exercise.xpReward}</span>
           )}
         </span>

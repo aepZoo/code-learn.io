@@ -79,7 +79,7 @@ interface ProgressState extends PlayerProgress {
     xp: number,
     stars: 1 | 2 | 3,
     meta?: { noHints?: boolean; timeMs?: number },
-  ) => { leveledUp: boolean; newLevel: number; newAchievements: string[] }
+  ) => { leveledUp: boolean; newLevel: number; newAchievements: string[]; xpEarned: number }
   useHint: () => void
   recordError: () => void
   isExerciseUnlocked: (exerciseId: string) => boolean
@@ -115,33 +115,37 @@ export const useProgressStore = create<ProgressState>()(
         let leveledUp = false
         let newLevel = get().player.level
         let newAchievements: string[] = []
+        let xpEarned = 0
         set((state) => {
           const alreadyDone = state.tracks.web.completedLessons.includes(exerciseId)
-          const xpGain = alreadyDone ? 5 : xp
-          const oldLevel = levelFromXP(state.player.totalXP)
+          xpEarned = alreadyDone ? 0 : xp
 
           if (!alreadyDone) {
             state.tracks.web.completedLessons.push(exerciseId)
             state.stats.exercisesCompleted += 1
           }
+
           state.tracks.web.stars[exerciseId] = Math.max(
             state.tracks.web.stars[exerciseId] ?? 0,
             stars,
           ) as 1 | 2 | 3
 
-          state.player.totalXP += xpGain
-          state.tracks.web.xp += xpGain
-          newLevel = levelFromXP(state.player.totalXP)
-          state.player.level = newLevel
-          state.player.title = titleForLevel(newLevel)
-          leveledUp = newLevel > oldLevel
+          if (xpEarned > 0) {
+            const oldLevel = levelFromXP(state.player.totalXP)
+            state.player.totalXP += xpEarned
+            state.tracks.web.xp += xpEarned
+            newLevel = levelFromXP(state.player.totalXP)
+            state.player.level = newLevel
+            state.player.title = titleForLevel(newLevel)
+            leveledUp = newLevel > oldLevel
+          }
 
           const idx = webExercises.findIndex((e) => e.id === exerciseId)
           if (idx >= 0 && idx < webExercises.length - 1) {
             state.tracks.web.currentLesson = webExercises[idx + 1].id
           }
 
-          if (meta?.noHints) {
+          if (!alreadyDone && meta?.noHints) {
             const ach = achievements.find((a) => a.id === 'no_hints')
             if (ach && !state.achievements.unlocked.includes('no_hints')) {
               state.achievements.unlocked.push('no_hints')
@@ -149,7 +153,7 @@ export const useProgressStore = create<ProgressState>()(
               state.player.totalXP += ach.xpBonus
             }
           }
-          if (meta?.timeMs && meta.timeMs < SPEED_BONUS_TIME_MS) {
+          if (!alreadyDone && meta?.timeMs && meta.timeMs < SPEED_BONUS_TIME_MS) {
             const ach = achievements.find((a) => a.id === 'speed_run')
             if (ach && !state.achievements.unlocked.includes('speed_run')) {
               state.achievements.unlocked.push('speed_run')
@@ -158,10 +162,10 @@ export const useProgressStore = create<ProgressState>()(
             }
           }
 
-          newAchievements = checkAchievements(state, exerciseId)
+          newAchievements = alreadyDone ? [] : checkAchievements(state, exerciseId)
           return { ...state }
         })
-        return { leveledUp, newLevel, newAchievements }
+        return { leveledUp, newLevel, newAchievements, xpEarned }
       },
 
       useHint: () =>
