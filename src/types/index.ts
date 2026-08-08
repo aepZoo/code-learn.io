@@ -46,6 +46,9 @@ export interface Achievement {
   description: string
   icon: string
   xpBonus: number
+  secret?: boolean
+  revealedTitle?: string
+  revealedDescription?: string
 }
 
 export interface Track {

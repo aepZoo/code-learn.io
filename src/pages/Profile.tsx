@@ -41,11 +41,13 @@ export function Profile() {
       <div className="achievement-grid">
         {achievements.map((a) => {
           const unlocked = ach.unlocked.includes(a.id)
+          const title = a.secret && !unlocked ? '???' : (a.revealedTitle ?? a.title)
+          const description = a.secret && !unlocked ? '???' : (a.revealedDescription ?? a.description)
           return (
-            <div key={a.id} className={`achievement-card ${unlocked ? '' : 'locked'}`}>
-              <div className="achievement-card__icon">{a.icon}</div>
-              <div className="achievement-card__title">{a.title}</div>
-              <div className="achievement-card__desc">{a.description}</div>
+            <div key={a.id} className={`achievement-card ${unlocked ? '' : 'locked'}${a.secret ? ' achievement-card--secret' : ''}`}>
+              <div className="achievement-card__icon">{a.secret && !unlocked ? '❓' : a.icon}</div>
+              <div className="achievement-card__title">{title}</div>
+              <div className="achievement-card__desc">{description}</div>
             </div>
           )
         })}

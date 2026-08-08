@@ -11,4 +11,16 @@ export const achievements: Achievement[] = [
   { id: 'level_5', title: 'Codeur', description: 'Atteindre le niveau 5', icon: '⭐', xpBonus: 15 },
   { id: 'level_10', title: 'Développeur', description: 'Atteindre le niveau 10', icon: '🌟', xpBonus: 15 },
   { id: 'web_complete', title: 'Web Warrior', description: 'Terminer le parcours Web', icon: '🏆', xpBonus: 15 },
+  {
+    id: 'hacker',
+    title: '???',
+    description: '???',
+    icon: '👾',
+    xpBonus: 25,
+    secret: true,
+    revealedTitle: 'Hacker',
+    revealedDescription: 'Tu as trouvé la backdoor de la console.',
+  },
 ]
+
+export const SECRET_ACHIEVEMENT_IDS = new Set(['hacker'])

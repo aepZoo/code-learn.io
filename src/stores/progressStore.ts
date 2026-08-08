@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware'
 import type { PlayerProgress } from '../types'
 import { levelFromXP, titleForLevel } from '../engine/xpCalculator'
 import { SPEED_BONUS_TIME_MS } from '../engine/timerUtils'
-import { achievements } from '../content/achievements'
+import { achievements, SECRET_ACHIEVEMENT_IDS } from '../content/achievements'
 import { webExercises } from '../content/tracks/web/exercises'
 
 const LOCAL_ID = crypto.randomUUID()
@@ -84,6 +84,7 @@ interface ProgressState extends PlayerProgress {
   isExerciseUnlocked: (exerciseId: string) => boolean
   isExerciseCompleted: (exerciseId: string) => boolean
   resetProgress: () => void
+  unlockSecretAchievement: (id: string) => { unlocked: boolean; message: string }
 }
 
 export const useProgressStore = create<ProgressState>()(
@@ -186,6 +187,33 @@ export const useProgressStore = create<ProgressState>()(
         get().tracks.web.completedLessons.includes(exerciseId),
 
       resetProgress: () => set(createInitialProgress()),
+
+      unlockSecretAchievement: (id) => {
+        if (!SECRET_ACHIEVEMENT_IDS.has(id)) {
+          return { unlocked: false, message: 'Achievement inconnu.' }
+        }
+        const ach = achievements.find((a) => a.id === id)
+        if (!ach) return { unlocked: false, message: 'Achievement inconnu.' }
+
+        if (get().achievements.unlocked.includes(id)) {
+          return { unlocked: false, message: 'Achievement déjà débloqué.' }
+        }
+
+        set((state) => {
+          state.achievements.unlocked.push(id)
+          state.achievements.dates[id] = new Date().toISOString()
+          state.player.totalXP += ach.xpBonus
+          const newLevel = levelFromXP(state.player.totalXP)
+          state.player.level = newLevel
+          state.player.title = titleForLevel(newLevel)
+          return { ...state }
+        })
+
+        return {
+          unlocked: true,
+          message: `🏅 Achievement débloqué : ${ach.revealedTitle ?? ach.title} (+${ach.xpBonus} XP)`,
+        }
+      },
     }),
     { name: 'code-learn-progress' },
   ),
