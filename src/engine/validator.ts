@@ -168,11 +168,22 @@ export function validateExercise(
       continue
     }
 
-    if (rule.type === 'dom-exists' || rule.type === 'css-property') {
+    if (rule.type === 'dom-exists' || rule.type === 'css-property' || rule.type === 'dom-absent') {
       if (!rule.selector) {
         return { success: false, message: 'Règle de validation invalide.' }
       }
       const elements = doc.querySelectorAll(rule.selector)
+
+      if (rule.type === 'dom-absent') {
+        if (elements.length > 0) {
+          return {
+            success: false,
+            message: `Remplacez les <${rule.selector}> par une navigation <nav>.`,
+          }
+        }
+        continue
+      }
+
       if (rule.minCount !== undefined && elements.length < rule.minCount) {
         return {
           success: false,

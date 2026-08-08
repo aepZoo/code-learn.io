@@ -198,10 +198,14 @@ export const webExercises: Exercise[] = [
     id: 'css-5',
     chapterId: 'css-layout',
     title: 'Navigation horizontale',
-    description: 'Créez une nav avec 3 liens alignés horizontalement avec flexbox et gap.',
+    description:
+      'Transformez votre liste `<ul>/<li>` en barre de navigation : remplacez-la par une balise `<nav>` contenant vos liens `<a>`, alignés horizontalement avec `display: flex` et un `gap`.',
     difficulty: 2,
     xpReward: 40,
-    hints: ['nav { display: flex; gap: 16px; }'],
+    hints: [
+      'Remplacez <ul>…</ul> par <nav> avec vos <a> à l\'intérieur.',
+      'nav { display: flex; gap: 16px; padding: 16px; background: #1A1A2E; }',
+    ],
     hintCost: 5,
     starterCode: {
       html: '<nav>\n  <a href="#">Accueil</a>\n  <a href="#">Cours</a>\n  <a href="#">Profil</a>\n</nav>\n',
@@ -209,8 +213,14 @@ export const webExercises: Exercise[] = [
       js: '',
     },
     validation: [
-      { type: 'css-property', selector: 'nav', checks: [{ property: 'display', equals: 'flex' }] },
-      { type: 'dom-exists', selector: 'nav a', checks: [] },
+      { type: 'html-well-formed', checks: [] },
+      { type: 'dom-absent', selector: 'ul', checks: [] },
+      { type: 'dom-exists', selector: 'nav', checks: [] },
+      { type: 'dom-exists', selector: 'nav a', checks: [], minCount: 2 },
+      {
+        type: 'css-source',
+        checks: [{ matches: 'nav\\s*\\{[^}]*display\\s*:\\s*flex' }],
+      },
     ],
     mode: 'preview',
     order: 11,
