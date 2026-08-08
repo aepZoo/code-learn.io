@@ -149,6 +149,19 @@ export function validateExercise(
       continue
     }
 
+    if (rule.type === 'js-source') {
+      const jsText = sources.js ?? ''
+      for (const check of rule.checks) {
+        if (check.contains && !jsText.includes(check.contains)) {
+          return { success: false, message: `Ajoutez au JavaScript : ${check.contains}` }
+        }
+        if (check.matches && !new RegExp(check.matches, 'i').test(jsText)) {
+          return { success: false, message: 'Le JavaScript ne contient pas le code attendu.' }
+        }
+      }
+      continue
+    }
+
     if (rule.type === 'html-well-formed') {
       const result = validateHtmlWellFormed(sources.html ?? '')
       if (!result.success) return result
