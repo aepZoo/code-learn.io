@@ -398,6 +398,69 @@ button {
   font-weight: 500;
 }
 
+.exercise-timer {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.exercise-timer__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.exercise-timer__label {
+  font-weight: 700;
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.exercise-timer__target {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.exercise-timer__track {
+  height: 8px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.exercise-timer__fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.2s linear, background 0.3s;
+}
+
+.exercise-timer__fill--good {
+  background: linear-gradient(90deg, var(--success), #55efc4);
+}
+
+.exercise-timer__fill--warn {
+  background: linear-gradient(90deg, var(--warning), #f39c12);
+}
+
+.exercise-timer__fill--danger {
+  background: linear-gradient(90deg, #e17055, var(--error));
+}
+
+.exercise-timer__fill--over {
+  background: var(--error);
+  animation: timer-pulse 1s ease-in-out infinite;
+}
+
+@keyframes timer-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.65; }
+}
+
 .exercise-xp-penalty {
   opacity: 0.5;
   font-weight: 400;
@@ -432,9 +495,13 @@ button {
   flex-direction: column;
 }
 
+.exercise-preview-area .preview-panel,
 .exercise-preview-area .desktop-sim {
   flex: 1;
   min-height: 0;
+}
+
+.exercise-preview-area .desktop-sim {
   height: auto;
 }
 

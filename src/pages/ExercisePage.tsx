@@ -8,6 +8,7 @@ import { ToastContainer, type ToastItem } from '../components/game/ToastContaine
 import { webExercises } from '../content/tracks/web/exercises'
 import { validateExercise } from '../engine/validator'
 import { calculateExerciseXP, starsForCompletion } from '../engine/xpCalculator'
+import { ExerciseTimer } from '../components/game/ExerciseTimer'
 import { achievements } from '../content/achievements'
 import { useProgressStore } from '../stores/progressStore'
 
@@ -36,6 +37,7 @@ export function ExercisePage() {
   const [showVignette, setShowVignette] = useState(false)
   const [failedAttempts, setFailedAttempts] = useState(0)
   const [hintsUsed, setHintsUsed] = useState(0)
+  const [timerRunning, setTimerRunning] = useState(true)
 
   useEffect(() => {
     if (!exercise) return
@@ -50,6 +52,7 @@ export function ExercisePage() {
     setValidationMsg(null)
     setHintsUsed(0)
     setFailedAttempts(0)
+    setTimerRunning(true)
   }, [exercise])
 
   const addToast = useCallback((type: ToastItem['type'], message: string) => {
@@ -119,6 +122,7 @@ export function ExercisePage() {
       return
     }
 
+    setTimerRunning(false)
     const timeMs = Date.now() - startTime.current
     const earnedXP = calculateExerciseXP(
       exercise.xpReward,
@@ -191,6 +195,8 @@ export function ExercisePage() {
           </p>
         )}
       </section>
+
+      <ExerciseTimer running={timerRunning} resetKey={exercise.id} />
 
       <div className="exercise-layout">
         <CodeEditor

@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { PlayerProgress } from '../types'
 import { levelFromXP, titleForLevel } from '../engine/xpCalculator'
+import { SPEED_BONUS_TIME_MS } from '../engine/timerUtils'
 import { achievements } from '../content/achievements'
 import { webExercises } from '../content/tracks/web/exercises'
 
@@ -145,7 +146,7 @@ export const useProgressStore = create<ProgressState>()(
               state.player.totalXP += ach.xpBonus
             }
           }
-          if (meta?.timeMs && meta.timeMs < 120000) {
+          if (meta?.timeMs && meta.timeMs < SPEED_BONUS_TIME_MS) {
             const ach = achievements.find((a) => a.id === 'speed_run')
             if (ach && !state.achievements.unlocked.includes('speed_run')) {
               state.achievements.unlocked.push('speed_run')

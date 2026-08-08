@@ -1,3 +1,5 @@
+import { SPEED_BONUS_TIME_MS } from './timerUtils'
+
 export function xpForLevel(level: number): number {
   return level * level * 100
 }
@@ -31,7 +33,7 @@ export function starsForCompletion(
   hintsUsed: number,
   failedAttempts: number,
 ): 1 | 2 | 3 {
-  if (failedAttempts === 0 && hintsUsed === 0 && timeMs < 120000) return 3
+  if (failedAttempts === 0 && hintsUsed === 0 && timeMs < SPEED_BONUS_TIME_MS) return 3
   if (failedAttempts <= 1 && hintsUsed <= 1) return 2
   return 1
 }
