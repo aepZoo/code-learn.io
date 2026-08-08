@@ -4,7 +4,7 @@ export const webExercises: Exercise[] = [
   {
     id: 'html-1',
     chapterId: 'html-basics',
-    title: 'h1 — Titre principal',
+    title: 'Titre principal',
     description: 'Affichez « Bonjour le monde » comme titre principal de votre page.',
     explanation:
       'La balise `<h1>` définit le titre le plus important d\'une page. Les titres vont de h1 (principal) à h6 (le plus petit). Tout texte entre une balise ouvrante `<h1>` et fermante `</h1>` s\'affiche comme un gros titre.',
@@ -25,7 +25,7 @@ export const webExercises: Exercise[] = [
   {
     id: 'html-2',
     chapterId: 'html-basics',
-    title: 'p — Paragraphe',
+    title: 'Paragraphe',
     description: 'Ajoutez un paragraphe de texte sous votre titre (minimum 10 caractères).',
     explanation:
       'La balise `<p>` crée un paragraphe : un bloc de texte séparé des autres. Chaque `<p>` est affiché avec un espace avant et après, ce qui structure la lecture.',
@@ -46,7 +46,7 @@ export const webExercises: Exercise[] = [
   {
     id: 'html-3',
     chapterId: 'html-basics',
-    title: 'ul / li — Liste à puces',
+    title: 'Liste à puces',
     description: 'Créez une liste non ordonnée contenant au moins 3 éléments.',
     explanation:
       '`<ul>` (unordered list) est le conteneur d\'une liste à puces. Chaque élément est un `<li>` (list item). Le navigateur ajoute automatiquement une puce devant chaque li.',
@@ -68,7 +68,7 @@ export const webExercises: Exercise[] = [
   {
     id: 'html-4',
     chapterId: 'html-basics',
-    title: 'a — Lien hypertexte',
+    title: 'Lien hypertexte',
     description: 'Dans un élément de votre liste, ajoutez un lien vers github.com affichant « GitHub ».',
     explanation:
       '`<a href="url">` crée un hyperlien cliquable. L\'attribut `href` indique la destination. Chaque balise ouverte doit être fermée (`</a>`, `</li>`…) au bon endroit — le navigateur ne devine pas toujours correctement.',
@@ -94,7 +94,7 @@ export const webExercises: Exercise[] = [
   {
     id: 'html-5',
     chapterId: 'html-forms',
-    title: 'button — Bouton',
+    title: 'Bouton',
     description: 'Ajoutez un bouton rouge affichant « Clique-moi ».',
     explanation:
       '`<button>` est un élément interactif : l\'utilisateur peut cliquer dessus. On peut le colorer via CSS (`background-color`) ou l\'attribut `style` directement dans le HTML.',
@@ -115,7 +115,7 @@ export const webExercises: Exercise[] = [
   {
     id: 'html-6',
     chapterId: 'html-forms',
-    title: 'input / label — Champ de saisie',
+    title: 'Champ de saisie',
     description: 'Créez un champ de saisie texte accompagné du label « Email ».',
     explanation:
       '`<label>` décrit un champ de formulaire. `<input type="text">` crée une zone où l\'utilisateur peut taper du texte. Le type précise le genre de donnée attendue.',
@@ -137,7 +137,7 @@ export const webExercises: Exercise[] = [
   {
     id: 'css-1',
     chapterId: 'css-intro',
-    title: 'background-color / color — Couleurs',
+    title: 'Couleurs CSS',
     description: 'Fond violet (#6C5CE7) pour toute la page, texte du titre en blanc.',
     explanation:
       'Le sélecteur `body` cible toute la page. `background-color` colore le fond, `color` la couleur du texte. Le CSS vit dans l\'onglet CSS et s\'applique au HTML de l\'onglet HTML.',
@@ -165,7 +165,7 @@ export const webExercises: Exercise[] = [
   {
     id: 'css-2',
     chapterId: 'css-intro',
-    title: 'font-size / text-align — Taille et centrage',
+    title: 'Taille et centrage des textes',
     description: 'Le titre doit faire 2rem et être centré horizontalement.',
     explanation:
       '`font-size: 2rem` définit la taille du texte en rem (relatif à la taille de base du document). `text-align: center` centre le contenu horizontalement dans son conteneur.',
@@ -193,7 +193,7 @@ export const webExercises: Exercise[] = [
   {
     id: 'css-3',
     chapterId: 'css-intro',
-    title: 'class — Carte stylée',
+    title: 'Carte stylée',
     description: 'Créez une carte (.card) : fond blanc, coins arrondis (12px), padding 20px et une ombre portée.',
     explanation:
       'L\'attribut `class="card"` permet de cibler un élément en CSS avec `.card`. border-radius arrondit les coins, padding espace le contenu intérieur, box-shadow ajoute une ombre.',
@@ -218,7 +218,7 @@ export const webExercises: Exercise[] = [
   {
     id: 'css-4',
     chapterId: 'css-layout',
-    title: 'flexbox — Centrer un élément',
+    title: 'Centrer un élément',
     description: 'Centrez un carré violet (100×100px) au milieu de l\'écran.',
     explanation:
       '`display: flex` transforme un conteneur en flexbox. `justify-content: center` centre horizontalement, `align-items: center` verticalement. `min-height: 100vh` occupe toute la hauteur de l\'écran (vh = viewport height).',
@@ -239,7 +239,7 @@ export const webExercises: Exercise[] = [
   {
     id: 'css-5',
     chapterId: 'css-layout',
-    title: 'nav + flex — Navigation horizontale',
+    title: 'Navigation horizontale',
     description: 'Ajoutez une barre de navigation avec au moins 3 liens, alignés horizontalement.',
     explanation:
       '`<nav>` est la balise sémantique pour une zone de navigation. Combinée à `display: flex` et `gap`, les liens `<a>` s\'alignent côte à côte avec un espacement régulier.',
@@ -266,7 +266,7 @@ export const webExercises: Exercise[] = [
   {
     id: 'css-6',
     chapterId: 'css-layout',
-    title: 'grid — Grille de cartes',
+    title: 'Grille de cartes',
     description: 'Affichez 2 cartes côte à côte en grille (2 colonnes égales, espacement 16px).',
     explanation:
       '`display: grid` crée une grille CSS. `grid-template-columns: 1fr 1fr` divise l\'espace en 2 colonnes égales (fr = fraction). `gap` espace les cellules.',
@@ -287,7 +287,7 @@ export const webExercises: Exercise[] = [
   {
     id: 'js-1',
     chapterId: 'js-basics',
-    title: 'console.log — Sortie console',
+    title: 'Sortie console',
     description: 'Faites afficher « Hello JS! » dans la console.',
     explanation:
       '`console.log()` envoie un message dans la console du navigateur — indispensable pour déboguer. Le code JavaScript s\'écrit dans l\'onglet JS et s\'exécute au chargement de la page.',
@@ -308,7 +308,7 @@ export const webExercises: Exercise[] = [
   {
     id: 'js-2',
     chapterId: 'js-basics',
-    title: 'DOM — Modifier le contenu',
+    title: 'Modifier le contenu',
     description: 'Créez un paragraphe id="msg", puis faites-le afficher « JavaScript actif! » via JavaScript.',
     explanation:
       'Le DOM est la représentation JavaScript de la page. `document.getElementById("msg")` sélectionne un élément par son id. `.textContent` permet de lire ou modifier son texte.',
@@ -329,7 +329,7 @@ export const webExercises: Exercise[] = [
   {
     id: 'app-1',
     chapterId: 'first-app',
-    title: 'Première application — Simulateur bureau',
+    title: 'Première application',
     description: 'Composez une mini-app (titre « Mon App » + bouton stylé + fond dégradé). Elle s\'ouvrira dans le simulateur de bureau.',
     explanation:
       'En combinant HTML (structure), CSS (apparence) et éventuellement JS (interactivité), on crée une application web complète. Le simulateur de bureau l\'affiche comme une vraie app dans une fenêtre.',

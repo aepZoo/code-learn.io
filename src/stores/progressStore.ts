@@ -5,6 +5,7 @@ import { levelFromXP, titleForLevel } from '../engine/xpCalculator'
 import { SPEED_BONUS_TIME_MS } from '../engine/timerUtils'
 import { achievements, SECRET_ACHIEVEMENT_IDS } from '../content/achievements'
 import { webExercises } from '../content/tracks/web/exercises'
+import { useWorkspaceStore } from './workspaceStore'
 
 const LOCAL_ID = crypto.randomUUID()
 
@@ -187,7 +188,10 @@ export const useProgressStore = create<ProgressState>()(
       isExerciseCompleted: (exerciseId) =>
         get().tracks.web.completedLessons.includes(exerciseId),
 
-      resetProgress: () => set(createInitialProgress()),
+      resetProgress: () => {
+        set(createInitialProgress())
+        useWorkspaceStore.getState().resetWeb()
+      },
 
       toggleTheme: () =>
         set((state) => {
