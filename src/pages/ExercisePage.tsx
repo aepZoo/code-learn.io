@@ -24,7 +24,7 @@ export function ExercisePage() {
   const hintsUsedRef = useRef(0)
   const failedAttemptsRef = useRef(0)
 
-  const { completeExercise, useHint, recordError, isExerciseUnlocked } = useProgressStore()
+  const { completeExercise, useHint, recordError, isExerciseUnlocked, isExerciseCompleted } = useProgressStore()
   const { web, setHtml, setCss, setJs, initWebIfNeeded } = useWorkspaceStore()
 
   const [activeTab, setActiveTab] = useState<Tab>('html')
@@ -94,6 +94,8 @@ export function ExercisePage() {
 
   const estimatedXP = calculateExerciseXP(exercise.xpReward, failedAttempts, hintsUsed)
   const nextExercise = webExercises.find((e) => e.order === exercise.order + 1)
+  const showExplanation =
+    isExerciseCompleted(exercise.id) || validationMsg?.type === 'success'
 
   const handleRun = () => previewRef.current?.refresh()
 
@@ -212,6 +214,12 @@ export function ExercisePage() {
             {failedAttempts > 0 && hintsUsed > 0 && ' · '}
             {hintsUsed > 0 && `${hintsUsed} indice(s) · -${hintsUsed * 5} XP`}
           </p>
+        )}
+        {showExplanation && (
+          <div className="exercise-explanation">
+            <strong>Ce que vous avez appris</strong>
+            <p>{exercise.explanation}</p>
+          </div>
         )}
       </section>
 

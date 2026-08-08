@@ -2,9 +2,9 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 export const DEFAULT_WEB_WORKSPACE = {
-  html: '<!-- Mon projet web -->\n<h1>Titre coloré</h1>\n',
-  css: '/* Mes styles */\n',
-  js: '// Mon JavaScript\n',
+  html: '',
+  css: '',
+  js: '',
 }
 
 interface WorkspaceState {

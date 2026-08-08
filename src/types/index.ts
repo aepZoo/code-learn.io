@@ -19,6 +19,7 @@ export interface Exercise {
   chapterId: string
   title: string
   description: string
+  explanation: string
   difficulty: 1 | 2 | 3
   xpReward: number
   hints: string[]

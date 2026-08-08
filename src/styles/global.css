@@ -397,6 +397,27 @@ button {
   color: var(--accent) !important;
 }
 
+.exercise-explanation {
+  margin-top: 14px;
+  padding: 14px 16px;
+  background: rgba(0, 184, 148, 0.08);
+  border-left: 3px solid var(--success);
+  border-radius: 0 8px 8px 0;
+}
+
+.exercise-explanation strong {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--success);
+  margin-bottom: 6px;
+}
+
+.exercise-explanation p {
+  font-size: 0.9rem !important;
+  color: var(--text) !important;
+  line-height: 1.6;
+}
+
 .exercise-penalty-note {
   margin-top: 10px;
   font-size: 0.8rem;
