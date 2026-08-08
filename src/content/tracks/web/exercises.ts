@@ -104,17 +104,21 @@ export const webExercises: Exercise[] = [
   {
     id: 'css-1',
     chapterId: 'css-intro',
-    title: 'Couleur de fond',
-    description: 'Donnez un fond violet (#6C5CE7) au body via CSS.',
+    title: 'Couleurs',
+    description: 'Donnez un fond violet (#6C5CE7) au `body` et une couleur blanche au `h1`.',
     difficulty: 1,
-    xpReward: 30,
-    hints: ['body { background-color: #6C5CE7; }'],
+    xpReward: 35,
+    hints: ['body { background-color: #6C5CE7; }', 'h1 { color: white; }'],
     hintCost: 5,
     starterCode: { html: '<h1>Titre coloré</h1>\n', css: '/* Votre CSS */\n', js: '' },
     validation: [
       {
         type: 'css-source',
         checks: [{ matches: 'background(-color)?\\s*:\\s*(#6[Cc]5[Cc][Ee]7|rgb\\s*\\(\\s*108\\s*,\\s*92\\s*,\\s*231)' }],
+      },
+      {
+        type: 'css-source',
+        checks: [{ matches: 'h1\\s*\\{[^}]*color\\s*:\\s*(white|#fff(ff)?|rgb\\s*\\(\\s*255\\s*,\\s*255\\s*,\\s*255)' }],
       },
     ],
     mode: 'preview',
@@ -123,18 +127,22 @@ export const webExercises: Exercise[] = [
   {
     id: 'css-2',
     chapterId: 'css-intro',
-    title: 'Style de texte',
-    description: 'Stylez le h1 : couleur blanche, taille 2rem, centré.',
+    title: 'Taille et centrage',
+    description: 'Stylez le `h1` : taille `2rem` et texte centré.',
     difficulty: 2,
     xpReward: 35,
-    hints: ['h1 { color: white; font-size: 2rem; text-align: center; }'],
+    hints: ['h1 { font-size: 2rem; text-align: center; }'],
     hintCost: 5,
-    starterCode: { html: '<h1>Mon titre</h1>\n', css: 'body { background: #1A1A2E; min-height: 100vh; margin: 0; padding: 20px; }\n', js: '' },
+    starterCode: { html: '<h1>Mon titre</h1>\n', css: '', js: '' },
     validation: [
-      { type: 'css-property', selector: 'h1', checks: [
-        { property: 'color', contains: '#ffffff' },
-        { property: 'text-align', equals: 'center' },
-      ]},
+      {
+        type: 'css-source',
+        checks: [{ matches: 'h1\\s*\\{[^}]*font-size\\s*:\\s*2rem' }],
+      },
+      {
+        type: 'css-source',
+        checks: [{ matches: 'h1\\s*\\{[^}]*text-align\\s*:\\s*center' }],
+      },
     ],
     mode: 'preview',
     order: 8,
