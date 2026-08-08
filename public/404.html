@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      // GitHub Pages SPA redirect
+      const path = window.location.pathname.replace(/^\/code-learn.io\/?/, '/');
+      const base = '/code-learn.io/';
+      sessionStorage.setItem('redirect', path + window.location.search + window.location.hash);
+      window.location.replace(base);
+    </script>
+  </head>
+  <body></body>
+</html>
