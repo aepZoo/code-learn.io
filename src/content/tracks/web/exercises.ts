@@ -196,7 +196,7 @@ export const webExercises: Exercise[] = [
     title: 'Carte stylée',
     description: 'Créez une div avec la classe (.card) et lui appliquer : fond blanc, coins arrondis (12px), padding 20px et une ombre portée.',
     explanation:
-      'L\'attribut `class="card"` permet de cibler un élément en CSS avec `.card`. border-radius arrondit les coins, padding espace le contenu intérieur, box-shadow ajoute une ombre.',
+      'L\'attribut `class="card"` permet de cibler un élément en CSS avec `.card`. border-radius arrondit les coins, padding espace le contenu intérieur, box-shadow ajoute une ombre. Pour l\'ombre portée, utilisez : `box-shadow: 0px 5px 5px black;`',
     difficulty: 2,
     xpReward: 40,
     hints: [
