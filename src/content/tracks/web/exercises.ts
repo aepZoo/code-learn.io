@@ -112,7 +112,7 @@ export const webExercises: Exercise[] = [
     hintCost: 5,
     starterCode: { html: '<h1>Titre coloré</h1>\n', css: '/* Votre CSS */\n', js: '' },
     validation: [
-      { type: 'css-property', selector: 'body', checks: [{ property: 'background-color', contains: '108, 92, 231' }] },
+      { type: 'css-property', selector: 'body', checks: [{ property: 'background-color', contains: '#6C5CE7' }] },
     ],
     mode: 'preview',
     order: 7,
@@ -129,7 +129,7 @@ export const webExercises: Exercise[] = [
     starterCode: { html: '<h1>Mon titre</h1>\n', css: 'body { background: #1A1A2E; min-height: 100vh; margin: 0; padding: 20px; }\n', js: '' },
     validation: [
       { type: 'css-property', selector: 'h1', checks: [
-        { property: 'color', contains: '255, 255, 255' },
+        { property: 'color', contains: '#ffffff' },
         { property: 'text-align', equals: 'center' },
       ]},
     ],

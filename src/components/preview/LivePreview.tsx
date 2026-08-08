@@ -69,9 +69,9 @@ export function loadPreviewDocument(
       resolve(doc)
     }
 
-    iframe.onload = () => setTimeout(finish, captureConsole ? 200 : 80)
+    iframe.onload = () => setTimeout(finish, captureConsole ? 200 : 150)
     document.body.appendChild(iframe)
     iframe.srcdoc = buildPreviewDocument(html, css, js, captureConsole)
-    setTimeout(finish, 600)
+    setTimeout(finish, 800)
   })
 }
