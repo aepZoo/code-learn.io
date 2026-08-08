@@ -28,12 +28,12 @@ npm run preview
 
 ## Déploiement GitHub Pages
 
-1. Va dans **Settings → Pages** du repo
-2. Source : **Deploy from a branch**
-3. Branch : **gh-pages** / **/ (root)**
-4. Chaque push sur `main` déploie automatiquement
+Le site se déploie automatiquement à chaque push sur `main`.
 
-URL : **https://aepZoo.github.io/code-learn.io/**
+**URL : https://aepZoo.github.io/code-learn.io/**
+
+> GitHub Pages est configuré sur la branche `cursor/code-learn-mvp-a1d0`.
+> Pour une config plus propre, tu peux changer dans Settings → Pages → branche `gh-pages`.
 
 ## Stack
 

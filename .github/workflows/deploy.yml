@@ -25,8 +25,10 @@ jobs:
 
       - run: touch dist/.nojekyll
 
-      - name: Deploy to gh-pages branch
+      - name: Deploy to GitHub Pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
+          publish_branch: cursor/code-learn-mvp-a1d0
+          force_orphan: true
