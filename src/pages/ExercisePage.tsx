@@ -50,6 +50,7 @@ export function ExercisePage() {
 
   useEffect(() => {
     if (!exercise) return
+    window.scrollTo({ top: 0, behavior: 'smooth' })
     setActiveTab(defaultEditorTab(exercise))
     startTime.current = Date.now()
     hintsUsedRef.current = 0
