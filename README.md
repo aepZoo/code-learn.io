@@ -26,9 +26,14 @@ npm run build
 npm run preview
 ```
 
-## Déploiement
+## Déploiement GitHub Pages
 
-Le site se déploie automatiquement sur GitHub Pages à chaque push sur `main`.
+1. Va dans **Settings → Pages** du repo
+2. Source : **Deploy from a branch**
+3. Branch : **gh-pages** / **/ (root)**
+4. Chaque push sur `main` déploie automatiquement
+
+URL : **https://aepZoo.github.io/code-learn.io/**
 
 ## Stack
 
