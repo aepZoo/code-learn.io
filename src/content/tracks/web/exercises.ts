@@ -235,7 +235,14 @@ export const webExercises: Exercise[] = [
     hintCost: 5,
     starterCode: { html: '', css: '', js: '' },
     validation: [
-      { type: 'css-property', selector: '.container', checks: [{ property: 'display', equals: 'flex' }] },
+      { type: 'dom-exists', selector: '.container', checks: [] },
+      { type: 'css-source', checks: [{ matches: '\\.container\\s*\\{[^}]*display\\s*:\\s*flex' }] },
+      { type: 'css-property', selector: '.container', checks: [
+        { property: 'display', equals: 'flex' },
+        { property: 'justify-content', equals: 'center' },
+        { property: 'align-items', equals: 'center' },
+        { property: 'min-height', contains: '100vh' },
+      ]},
     ],
     mode: 'preview',
     order: 10,
