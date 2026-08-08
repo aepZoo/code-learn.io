@@ -112,7 +112,10 @@ export const webExercises: Exercise[] = [
     hintCost: 5,
     starterCode: { html: '<h1>Titre coloré</h1>\n', css: '/* Votre CSS */\n', js: '' },
     validation: [
-      { type: 'css-property', selector: 'body', checks: [{ property: 'background-color', contains: '#6C5CE7' }] },
+      {
+        type: 'css-source',
+        checks: [{ matches: 'background(-color)?\\s*:\\s*(#6[Cc]5[Cc][Ee]7|rgb\\s*\\(\\s*108\\s*,\\s*92\\s*,\\s*231)' }],
+      },
     ],
     mode: 'preview',
     order: 7,

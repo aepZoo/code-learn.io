@@ -391,6 +391,12 @@ button {
   line-height: 1.6;
 }
 
+.exercise-workspace-note {
+  margin-top: 8px;
+  font-size: 0.82rem !important;
+  color: var(--accent) !important;
+}
+
 .exercise-penalty-note {
   margin-top: 10px;
   font-size: 0.8rem;

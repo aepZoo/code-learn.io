@@ -1,4 +1,5 @@
 import { useProgressStore } from '../stores/progressStore'
+import { useWorkspaceStore } from '../stores/workspaceStore'
 import { achievements } from '../content/achievements'
 import { webExercises } from '../content/tracks/web/exercises'
 
@@ -58,6 +59,13 @@ export function Profile() {
           if (confirm('Réinitialiser toute la progression ?')) resetProgress()
         }}>
           Réinitialiser la progression
+        </button>
+        <button className="btn btn-ghost" style={{ marginLeft: 8 }} onClick={() => {
+          if (confirm('Réinitialiser votre projet web (HTML/CSS/JS) ?')) {
+            useWorkspaceStore.getState().resetWeb()
+          }
+        }}>
+          Réinitialiser le projet
         </button>
       </div>
     </>

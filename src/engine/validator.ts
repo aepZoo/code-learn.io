@@ -89,8 +89,22 @@ function getComputedCssValue(doc: Document, el: Element, property: string): stri
 export function validateExercise(
   doc: Document,
   rules: ValidationRule[],
+  sources: { html?: string; css?: string; js?: string } = {},
 ): { success: boolean; message: string } {
   for (const rule of rules) {
+    if (rule.type === 'css-source') {
+      const cssText = sources.css ?? ''
+      for (const check of rule.checks) {
+        if (check.contains && !cssText.includes(check.contains)) {
+          return { success: false, message: `Ajoutez au CSS : ${check.contains}` }
+        }
+        if (check.matches && !new RegExp(check.matches, 'i').test(cssText)) {
+          return { success: false, message: 'Le CSS ne contient pas la règle attendue.' }
+        }
+      }
+      continue
+    }
+
     if (rule.type === 'html-structure') {
       const html = doc.documentElement.outerHTML
       for (const check of rule.checks) {

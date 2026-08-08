@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 import { CodeEditor } from '../components/editor/CodeEditor'
-import { LivePreview, loadPreviewDocument } from '../components/preview/LivePreview'
+import { LivePreview, runValidation, type LivePreviewHandle } from '../components/preview/LivePreview'
 import { DesktopSimulator } from '../components/desktop/DesktopSimulator'
 import { LevelUpModal } from '../components/game/LevelUpModal'
 import { ToastContainer, type ToastItem } from '../components/game/ToastContainer'
@@ -11,6 +11,7 @@ import { calculateExerciseXP, starsForCompletion } from '../engine/xpCalculator'
 import { ExerciseTimer } from '../components/game/ExerciseTimer'
 import { achievements } from '../content/achievements'
 import { useProgressStore } from '../stores/progressStore'
+import { useWorkspaceStore } from '../stores/workspaceStore'
 
 type Tab = 'html' | 'css' | 'js'
 
@@ -18,19 +19,17 @@ export function ExercisePage() {
   const { exerciseId } = useParams<{ exerciseId: string }>()
   const navigate = useNavigate()
   const exercise = webExercises.find((e) => e.id === exerciseId)
+  const previewRef = useRef<LivePreviewHandle>(null)
   const startTime = useRef(Date.now())
   const hintsUsedRef = useRef(0)
   const failedAttemptsRef = useRef(0)
 
   const { completeExercise, useHint, recordError, isExerciseUnlocked } = useProgressStore()
+  const { web, setHtml, setCss, setJs, initWebIfNeeded } = useWorkspaceStore()
 
-  const [html, setHtml] = useState('')
-  const [css, setCss] = useState('')
-  const [js, setJs] = useState('')
   const [activeTab, setActiveTab] = useState<Tab>('html')
   const [validationMsg, setValidationMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
   const [hintIndex, setHintIndex] = useState(-1)
-  const [runKey, setRunKey] = useState(0)
   const [levelUp, setLevelUp] = useState<{ level: number; title: string } | null>(null)
   const [toasts, setToasts] = useState<ToastItem[]>([])
   const [shake, setShake] = useState(false)
@@ -40,11 +39,18 @@ export function ExercisePage() {
   const [timerRunning, setTimerRunning] = useState(true)
 
   useEffect(() => {
+    initWebIfNeeded()
+  }, [initWebIfNeeded])
+
+  useEffect(() => {
     if (!exercise) return
-    setHtml(exercise.starterCode.html ?? '')
-    setCss(exercise.starterCode.css ?? '')
-    setJs(exercise.starterCode.js ?? '')
-    setActiveTab(exercise.starterCode.html !== undefined ? 'html' : exercise.starterCode.css !== undefined ? 'css' : 'js')
+    setActiveTab(
+      exercise.starterCode.css !== undefined && exercise.starterCode.html === undefined
+        ? 'css'
+        : exercise.starterCode.js !== undefined && !exercise.starterCode.html && !exercise.starterCode.css
+          ? 'js'
+          : 'html',
+    )
     startTime.current = Date.now()
     hintsUsedRef.current = 0
     failedAttemptsRef.current = 0
@@ -87,8 +93,9 @@ export function ExercisePage() {
   }
 
   const estimatedXP = calculateExerciseXP(exercise.xpReward, failedAttempts, hintsUsed)
+  const nextExercise = webExercises.find((e) => e.order === exercise.order + 1)
 
-  const handleRun = () => setRunKey((k) => k + 1)
+  const handleRun = () => previewRef.current?.refresh()
 
   const handleHint = () => {
     const next = hintIndex + 1
@@ -101,17 +108,23 @@ export function ExercisePage() {
   }
 
   const handleValidate = async () => {
-    const doc = await loadPreviewDocument(html, css, js, exercise.mode === 'console')
-    if (!doc) {
-      setValidationMsg({ type: 'error', text: 'Impossible de charger la preview.' })
-      recordError()
-      failedAttemptsRef.current += 1
-      setFailedAttempts((n) => n + 1)
-      triggerFailureFX()
-      return
+    let result: { success: boolean; message: string }
+
+    if (exercise.mode === 'console') {
+      result = await runValidation(web.html, web.css, web.js, exercise.validation, true)
+    } else {
+      const doc = await previewRef.current?.getDocument()
+      if (doc?.defaultView) {
+        result = validateExercise(doc, exercise.validation, {
+          html: web.html,
+          css: web.css,
+          js: web.js,
+        })
+      } else {
+        result = await runValidation(web.html, web.css, web.js, exercise.validation)
+      }
     }
 
-    const result = validateExercise(doc, exercise.validation)
     setValidationMsg({ type: result.success ? 'success' : 'error', text: result.message })
 
     if (!result.success) {
@@ -150,19 +163,22 @@ export function ExercisePage() {
     }
   }
 
-  const visibleTabs: Tab[] = [
-    ...(exercise.starterCode.html !== undefined ? (['html'] as Tab[]) : []),
-    ...(exercise.starterCode.css !== undefined ? (['css'] as Tab[]) : []),
-    ...(exercise.starterCode.js !== undefined || exercise.mode === 'console' ? (['js'] as Tab[]) : []),
-  ]
+  const handleContinue = () => {
+    if (nextExercise) navigate(`/exercise/${nextExercise.id}`)
+    else navigate('/track/web')
+  }
 
   const previewContent =
     exercise.mode === 'desktop' ? (
-      <DesktopSimulator key={runKey} html={html} css={css} js={js} />
-    ) : exercise.mode === 'console' ? (
-      <LivePreview key={runKey} html={html} css={css} js={js} captureConsole />
+      <DesktopSimulator html={web.html} css={web.css} js={web.js} />
     ) : (
-      <LivePreview key={runKey} html={html} css={css} js={js} />
+      <LivePreview
+        ref={previewRef}
+        html={web.html}
+        css={web.css}
+        js={web.js}
+        captureConsole={exercise.mode === 'console'}
+      />
     )
 
   return (
@@ -184,6 +200,9 @@ export function ExercisePage() {
 
       <section className="exercise-instructions exercise-instructions--inline">
         <p>{exercise.description}</p>
+        <p className="exercise-workspace-note">
+          Vous travaillez sur <strong>le même projet</strong> — votre code est conservé entre les exercices.
+        </p>
         {hintIndex >= 0 && (
           <div className="hint-box">💡 {exercise.hints[hintIndex]}</div>
         )}
@@ -202,13 +221,13 @@ export function ExercisePage() {
         <CodeEditor
           activeTab={activeTab}
           onTabChange={setActiveTab}
-          html={html}
-          css={css}
-          js={js}
+          html={web.html}
+          css={web.css}
+          js={web.js}
           onHtmlChange={setHtml}
           onCssChange={setCss}
           onJsChange={setJs}
-          visibleTabs={visibleTabs.length ? visibleTabs : ['html', 'css', 'js']}
+          visibleTabs={['html', 'css', 'js']}
         />
 
         <div className={`exercise-preview-col ${shake ? 'shake' : ''}`}>
@@ -231,8 +250,8 @@ export function ExercisePage() {
           )}
 
           {validationMsg?.type === 'success' && (
-            <button className="btn btn-primary" onClick={() => navigate('/track/web')}>
-              Continuer le parcours →
+            <button className="btn btn-primary" onClick={handleContinue}>
+              {nextExercise ? `Exercice suivant →` : 'Retour au parcours →'}
             </button>
           )}
         </div>
