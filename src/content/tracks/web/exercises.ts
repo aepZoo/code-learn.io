@@ -348,27 +348,5 @@ export const webExercises: Exercise[] = [
     ],
     mode: 'preview',
     order: 14,
-  },
-  {
-    id: 'app-1',
-    chapterId: 'first-app',
-    title: 'Première application',
-    description: 'Composez une mini-app avec le titre « Mon App » et un bouton. Elle s\'ouvrira dans le simulateur de bureau.',
-    explanation:
-      'Il fallait un `<h1>Mon App</h1>` et un `<button>`. En combinant HTML et CSS, on compose une mini-application affichée dans le simulateur de bureau.',
-    difficulty: 3,
-    xpReward: 100,
-    hints: [
-      'Un titre et un bouton suffisent pour cette étape.',
-      'Vous pouvez ajouter du CSS pour styliser votre app.',
-    ],
-    hintCost: 5,
-    starterCode: { html: '', css: '', js: '' },
-    validation: [
-      { type: 'dom-exists', selector: 'h1', checks: [{ property: 'textContent', contains: 'Mon App' }] },
-      { type: 'dom-exists', selector: 'button', checks: [] },
-    ],
-    mode: 'desktop',
-    order: 15,
-  },
+  }
 ]
