@@ -20,7 +20,7 @@ export function Home() {
         {tracks.map((track) => {
           const isWeb = track.id === 'web'
           const progressText = isWeb
-            ? `${webProgress.completedLessons.length}/${15} exercices`
+            ? `${webProgress.completedLessons.length}/${14} exercices`
             : null
 
           if (track.comingSoon) {
