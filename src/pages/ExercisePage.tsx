@@ -21,6 +21,10 @@ function defaultEditorTab(exercise: { id: string; chapterId: string }): Tab {
   return 'html'
 }
 
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
 export function ExercisePage() {
   const { exerciseId } = useParams<{ exerciseId: string }>()
   const navigate = useNavigate()
@@ -50,7 +54,7 @@ export function ExercisePage() {
 
   useEffect(() => {
     if (!exercise) return
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    scrollToTop()
     setActiveTab(defaultEditorTab(exercise))
     startTime.current = Date.now()
     hintsUsedRef.current = 0
@@ -169,9 +173,12 @@ export function ExercisePage() {
       const store = useProgressStore.getState()
       setLevelUp({ level: newLevel, title: store.player.title })
     }
+
+    scrollToTop()
   }
 
   const handleContinue = () => {
+    scrollToTop()
     if (nextExercise) navigate(`/exercise/${nextExercise.id}`)
     else navigate('/track/web')
   }
