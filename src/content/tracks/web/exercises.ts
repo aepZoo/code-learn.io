@@ -194,7 +194,7 @@ export const webExercises: Exercise[] = [
     id: 'css-3',
     chapterId: 'css-intro',
     title: 'Carte stylée',
-    description: 'Créez une carte (.card) : fond blanc, coins arrondis (12px), padding 20px et une ombre portée.',
+    description: 'Créez une div avec la classe (.card) et lui appliquer : fond blanc, coins arrondis (12px), padding 20px et une ombre portée.',
     explanation:
       'L\'attribut `class="card"` permet de cibler un élément en CSS avec `.card`. border-radius arrondit les coins, padding espace le contenu intérieur, box-shadow ajoute une ombre.',
     difficulty: 2,
@@ -207,9 +207,12 @@ export const webExercises: Exercise[] = [
     starterCode: { html: '', css: '', js: '' },
     validation: [
       { type: 'dom-exists', selector: '.card', checks: [] },
+      { type: 'css-source', checks: [{ matches: '\\.card\\s*\\{[^}]*box-shadow\\s*:' }] },
       { type: 'css-property', selector: '.card', checks: [
+        { property: 'background-color', contains: '255,255,255' },
         { property: 'border-radius', contains: '12px' },
         { property: 'padding', contains: '20px' },
+        { property: 'box-shadow', matches: '^(?!none$).+' },
       ]},
     ],
     mode: 'preview',
