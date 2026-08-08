@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { GameHUD } from './components/game/GameHUD'
+import { ThemeSync } from './engine/windWakerEasterEgg'
 import { Home } from './pages/Home'
 import { TrackMapPage } from './pages/TrackMapPage'
 import { ExercisePage } from './pages/ExercisePage'
@@ -9,6 +10,7 @@ export default function App() {
   return (
     <BrowserRouter basename="/code-learn.io">
       <div className="app-shell">
+        <ThemeSync />
         <GameHUD />
         <main className="app-main">
           <Routes>

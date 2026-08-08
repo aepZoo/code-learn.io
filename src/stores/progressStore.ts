@@ -85,6 +85,7 @@ interface ProgressState extends PlayerProgress {
   isExerciseCompleted: (exerciseId: string) => boolean
   resetProgress: () => void
   unlockSecretAchievement: (id: string) => { unlocked: boolean; message: string }
+  toggleTheme: () => void
 }
 
 export const useProgressStore = create<ProgressState>()(
@@ -187,6 +188,12 @@ export const useProgressStore = create<ProgressState>()(
         get().tracks.web.completedLessons.includes(exerciseId),
 
       resetProgress: () => set(createInitialProgress()),
+
+      toggleTheme: () =>
+        set((state) => {
+          state.settings.theme = state.settings.theme === 'light' ? 'dark' : 'light'
+          return { ...state }
+        }),
 
       unlockSecretAchievement: (id) => {
         if (!SECRET_ACHIEVEMENT_IDS.has(id)) {

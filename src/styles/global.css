@@ -17,6 +17,57 @@
   --font-code: 'JetBrains Mono', monospace;
 }
 
+[data-theme='dark'] {
+  --bg: #12121f;
+  --surface: #1e1e32;
+  --text: #eef0f6;
+  --text-muted: #9da3b8;
+  --border: #3a3a55;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme='dark'] .game-hud {
+  background: var(--surface);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme='dark'] .track-card,
+[data-theme='dark'] .exercise-instructions--inline,
+[data-theme='dark'] .exercise-timer,
+[data-theme='dark'] .preview-panel,
+[data-theme='dark'] .achievement-card,
+[data-theme='dark'] .stat-card,
+[data-theme='dark'] .profile-header {
+  background: var(--surface);
+}
+
+[data-theme='dark'] .preview-frame {
+  background: #fff;
+}
+
+.wind-waker-toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(12px);
+  opacity: 0;
+  padding: 12px 24px;
+  background: var(--surface);
+  border: 2px solid var(--accent);
+  border-radius: 99px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: var(--shadow);
+  z-index: 999;
+  transition: opacity 0.35s, transform 0.35s;
+  pointer-events: none;
+}
+
+.wind-waker-toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
