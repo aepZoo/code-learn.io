@@ -6,5 +6,4 @@ export const webChapters: Chapter[] = [
   { id: 'css-intro', title: 'CSS — Introduction', description: 'Couleurs, polices et styles', order: 3 },
   { id: 'css-layout', title: 'CSS — Mise en page', description: 'Flexbox et espacement', order: 4 },
   { id: 'js-basics', title: 'JavaScript — Bases', description: 'Variables et DOM', order: 5 },
-  { id: 'first-app', title: 'Première application', description: 'Créez votre première app UI', order: 6 },
 ]
