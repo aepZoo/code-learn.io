@@ -26,8 +26,22 @@ export function titleForLevel(level: number): string {
   return 'Apprenti'
 }
 
-export function starsForCompletion(timeMs: number, hintsUsed: number): 1 | 2 | 3 {
-  if (hintsUsed === 0 && timeMs < 120000) return 3
-  if (hintsUsed <= 1) return 2
+export function starsForCompletion(
+  timeMs: number,
+  hintsUsed: number,
+  failedAttempts: number,
+): 1 | 2 | 3 {
+  if (failedAttempts === 0 && hintsUsed === 0 && timeMs < 120000) return 3
+  if (failedAttempts <= 1 && hintsUsed <= 1) return 2
   return 1
+}
+
+/** XP earned after penalties for hints and failed validation attempts. */
+export function calculateExerciseXP(
+  baseXP: number,
+  failedAttempts: number,
+  hintsUsed: number,
+): number {
+  const penalty = failedAttempts * 5 + hintsUsed * 5
+  return Math.max(Math.floor(baseXP * 0.4), baseXP - penalty)
 }

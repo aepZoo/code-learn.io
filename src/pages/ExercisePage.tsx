@@ -7,7 +7,7 @@ import { LevelUpModal } from '../components/game/LevelUpModal'
 import { ToastContainer, type ToastItem } from '../components/game/ToastContainer'
 import { webExercises } from '../content/tracks/web/exercises'
 import { validateExercise } from '../engine/validator'
-import { starsForCompletion } from '../engine/xpCalculator'
+import { calculateExerciseXP, starsForCompletion } from '../engine/xpCalculator'
 import { achievements } from '../content/achievements'
 import { useProgressStore } from '../stores/progressStore'
 
@@ -19,6 +19,7 @@ export function ExercisePage() {
   const exercise = webExercises.find((e) => e.id === exerciseId)
   const startTime = useRef(Date.now())
   const hintsUsedRef = useRef(0)
+  const failedAttemptsRef = useRef(0)
 
   const { completeExercise, useHint, recordError, isExerciseUnlocked } = useProgressStore()
 
@@ -31,6 +32,10 @@ export function ExercisePage() {
   const [runKey, setRunKey] = useState(0)
   const [levelUp, setLevelUp] = useState<{ level: number; title: string } | null>(null)
   const [toasts, setToasts] = useState<ToastItem[]>([])
+  const [shake, setShake] = useState(false)
+  const [showVignette, setShowVignette] = useState(false)
+  const [failedAttempts, setFailedAttempts] = useState(0)
+  const [hintsUsed, setHintsUsed] = useState(0)
 
   useEffect(() => {
     if (!exercise) return
@@ -40,14 +45,24 @@ export function ExercisePage() {
     setActiveTab(exercise.starterCode.html !== undefined ? 'html' : exercise.starterCode.css !== undefined ? 'css' : 'js')
     startTime.current = Date.now()
     hintsUsedRef.current = 0
+    failedAttemptsRef.current = 0
     setHintIndex(-1)
     setValidationMsg(null)
+    setHintsUsed(0)
+    setFailedAttempts(0)
   }, [exercise])
 
   const addToast = useCallback((type: ToastItem['type'], message: string) => {
     const id = crypto.randomUUID()
     setToasts((t) => [...t, { id, type, message }])
     setTimeout(() => setToasts((t) => t.filter((x) => x.id !== id)), 3000)
+  }, [])
+
+  const triggerFailureFX = useCallback(() => {
+    setShake(true)
+    setShowVignette(true)
+    setTimeout(() => setShake(false), 500)
+    setTimeout(() => setShowVignette(false), 700)
   }, [])
 
   if (!exercise) {
@@ -68,6 +83,8 @@ export function ExercisePage() {
     )
   }
 
+  const estimatedXP = calculateExerciseXP(exercise.xpReward, failedAttempts, hintsUsed)
+
   const handleRun = () => setRunKey((k) => k + 1)
 
   const handleHint = () => {
@@ -76,6 +93,7 @@ export function ExercisePage() {
       setHintIndex(next)
       useHint()
       hintsUsedRef.current += 1
+      setHintsUsed((n) => n + 1)
     }
   }
 
@@ -84,6 +102,9 @@ export function ExercisePage() {
     if (!doc) {
       setValidationMsg({ type: 'error', text: 'Impossible de charger la preview.' })
       recordError()
+      failedAttemptsRef.current += 1
+      setFailedAttempts((n) => n + 1)
+      triggerFailureFX()
       return
     }
 
@@ -92,19 +113,27 @@ export function ExercisePage() {
 
     if (!result.success) {
       recordError()
+      failedAttemptsRef.current += 1
+      setFailedAttempts((n) => n + 1)
+      triggerFailureFX()
       return
     }
 
     const timeMs = Date.now() - startTime.current
-    const stars = starsForCompletion(timeMs, hintsUsedRef.current)
+    const earnedXP = calculateExerciseXP(
+      exercise.xpReward,
+      failedAttemptsRef.current,
+      hintsUsedRef.current,
+    )
+    const stars = starsForCompletion(timeMs, hintsUsedRef.current, failedAttemptsRef.current)
     const { leveledUp, newLevel, newAchievements } = completeExercise(
       exercise.id,
-      exercise.xpReward,
+      earnedXP,
       stars,
       { noHints: hintsUsedRef.current === 0, timeMs },
     )
 
-    addToast('xp', `+${exercise.xpReward} XP`)
+    addToast('xp', `+${earnedXP} XP`)
 
     for (const achId of newAchievements) {
       const ach = achievements.find((a) => a.id === achId)
@@ -123,15 +152,45 @@ export function ExercisePage() {
     ...(exercise.starterCode.js !== undefined || exercise.mode === 'console' ? (['js'] as Tab[]) : []),
   ]
 
+  const previewContent =
+    exercise.mode === 'desktop' ? (
+      <DesktopSimulator key={runKey} html={html} css={css} js={js} />
+    ) : exercise.mode === 'console' ? (
+      <LivePreview key={runKey} html={html} css={css} js={js} captureConsole />
+    ) : (
+      <LivePreview key={runKey} html={html} css={css} js={js} />
+    )
+
   return (
     <>
-      <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      {showVignette && <div className="failure-vignette" aria-hidden />}
+
+      <header className="exercise-header">
         <div>
-          <Link to="/track/web" style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>← Parcours Web</Link>
-          <h1 style={{ fontSize: '1.2rem', marginTop: '4px' }}>#{exercise.order} {exercise.title}</h1>
+          <Link to="/track/web" className="exercise-header__back">← Parcours Web</Link>
+          <h1 className="exercise-header__title">#{exercise.order} {exercise.title}</h1>
         </div>
-        <span className="track-card__badge">+{exercise.xpReward} XP</span>
-      </div>
+        <span className="track-card__badge" title="XP estimé selon essais et indices">
+          +{estimatedXP} XP
+          {(failedAttempts > 0 || hintsUsed > 0) && (
+            <span className="exercise-xp-penalty"> / {exercise.xpReward}</span>
+          )}
+        </span>
+      </header>
+
+      <section className="exercise-instructions exercise-instructions--inline">
+        <p>{exercise.description}</p>
+        {hintIndex >= 0 && (
+          <div className="hint-box">💡 {exercise.hints[hintIndex]}</div>
+        )}
+        {(failedAttempts > 0 || hintsUsed > 0) && (
+          <p className="exercise-penalty-note">
+            {failedAttempts > 0 && `${failedAttempts} essai(s) raté(s) · -${failedAttempts * 5} XP`}
+            {failedAttempts > 0 && hintsUsed > 0 && ' · '}
+            {hintsUsed > 0 && `${hintsUsed} indice(s) · -${hintsUsed * 5} XP`}
+          </p>
+        )}
+      </section>
 
       <div className="exercise-layout">
         <CodeEditor
@@ -146,15 +205,9 @@ export function ExercisePage() {
           visibleTabs={visibleTabs.length ? visibleTabs : ['html', 'css', 'js']}
         />
 
-        <div className="exercise-sidebar">
-          <div className="exercise-instructions">
-            <h2>Consignes</h2>
-            <p>{exercise.description}</p>
-            {hintIndex >= 0 && (
-              <div className="hint-box">
-                💡 {exercise.hints[hintIndex]}
-              </div>
-            )}
+        <div className={`exercise-preview-col ${shake ? 'shake' : ''}`}>
+          <div className="exercise-preview-area">
+            {previewContent}
           </div>
 
           <div className="exercise-actions">
@@ -169,14 +222,6 @@ export function ExercisePage() {
 
           {validationMsg && (
             <div className={`validation-msg ${validationMsg.type}`}>{validationMsg.text}</div>
-          )}
-
-          {exercise.mode === 'desktop' ? (
-            <DesktopSimulator key={runKey} html={html} css={css} js={js} />
-          ) : exercise.mode === 'console' ? (
-            <LivePreview key={runKey} html={html} css={css} js={js} captureConsole />
-          ) : (
-            <LivePreview key={runKey} html={html} css={css} js={js} />
           )}
 
           {validationMsg?.type === 'success' && (
