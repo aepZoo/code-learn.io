@@ -224,24 +224,30 @@ export const webExercises: Exercise[] = [
     title: 'Centrer un élément',
     description: 'Créez une `<div class="container">` qui englobe un carré violet (100×100px), puis centrez-le au milieu de l\'écran avec flexbox.',
     explanation:
-      'Structure HTML : `<div class="container"><div class="square"></div></div>`. La classe `container` sert de parent flex — c\'est ce nom que le validateur attend. En CSS, `.container` reçoit `display: flex`, `justify-content: center` (centrage horizontal), `align-items: center` (centrage vertical) et `min-height: 100vh` (toute la hauteur de l\'écran). Le carré `.square` : `width: 100px`, `height: 100px`, `background-color: #6C5CE7`.',
+      'Structure HTML : `<div class="container"><div class="square"></div></div>`. La classe `container` sert de parent flex — c\'est ce nom que le validateur attend. En CSS, `.container` reçoit `display: flex`, `justify-content: center` (centrage horizontal), `align-items: center` (centrage vertical) et `min-height: 100px`. Le carré `.square` : `width: 100px`, `height: 100px`, `background-color: #6C5CE7`.',
     difficulty: 3,
     xpReward: 45,
     hints: [
       'Ajoutez une div parente avec `class="container"` autour de votre carré.',
       'display: flex sur `.container` permet de centrer son enfant.',
-      'min-height: 100vh sur `.container` lui fait occuper toute la hauteur de l\'écran.',
+      'min-height: 100px sur `.container` définit une zone assez haute pour voir le centrage.',
     ],
     hintCost: 5,
     starterCode: { html: '', css: '', js: '' },
     validation: [
       { type: 'dom-exists', selector: '.container', checks: [] },
+      { type: 'dom-exists', selector: '.square', checks: [] },
       { type: 'css-source', checks: [{ matches: '\\.container\\s*\\{[^}]*display\\s*:\\s*flex' }] },
       { type: 'css-property', selector: '.container', checks: [
         { property: 'display', equals: 'flex' },
         { property: 'justify-content', equals: 'center' },
         { property: 'align-items', equals: 'center' },
-        { property: 'min-height', contains: '100vh' },
+        { property: 'min-height', contains: '100px' },
+      ]},
+      { type: 'css-property', selector: '.square', checks: [
+        { property: 'width', contains: '100px' },
+        { property: 'height', contains: '100px' },
+        { property: 'background-color', contains: '108,92,231' },
       ]},
     ],
     mode: 'preview',
